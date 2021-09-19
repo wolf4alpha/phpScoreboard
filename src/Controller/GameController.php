@@ -30,4 +30,33 @@ class GameController extends AbstractController
         ));
     }
 
+    /**
+     * @param EntityManagerInterface $entityManager
+     * @Route("/game/list")
+     */
+    public function listGames(EntityManagerInterface $entityManager){
+        $repository = $entityManager->getRepository(Game::class);
+        $games = $repository->findAll();
+        $data = [
+            'games' => $games
+        ];
+        return  $this->render('game_list.html.twig',$data);
+    }
+
+    /**
+     * @Route("/game/show/{slug}")
+     */
+    public function show($slug, EntityManagerInterface $entityManager){
+
+        $repository = $entityManager->getRepository(Game::class);
+        $game = $repository->findOneBy(['name' => $slug]);
+        if(!$game){
+            throw $this->createNotFoundException(sprintf('no game found for name: %s',$slug));
+        }
+        $data = [
+            'game' => $game
+        ];
+        return $this->render('game_show.html.twig',$data);
+    }
+
 }

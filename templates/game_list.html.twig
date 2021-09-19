@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>game list</h1>
+
+    <ol>
+{% for game in games %}
+
+    <li><a href="/game/show/{{ game.name }}">{{ game.name }}</a></li>
+{% endfor %}
+    </ol>
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
+
